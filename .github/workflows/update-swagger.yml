@@ -32,7 +32,7 @@ jobs:
           # Move index.html to the root
           mv dist/index.html .
           # Fix references in dist/swagger-initializer and index.html
-          sed -i "s|https://petstore.swagger.io/v2/swagger.json|$SWAGGER_YAML|g" dist/swagger-initializer.js
+          sed -i "s|https://gist.githubusercontent.com/nitinfanestra/60ff5d49a02ff57c086fbe0a39b0db6a/raw/addca78bd5e8b5376e45aa134196e1d85a8a2f55/swagger.json|$SWAGGER_YAML|g" dist/swagger-initializer.js
           sed -i "s|href=\"./|href=\"dist/|g" index.html
           sed -i "s|src=\"./|src=\"dist/|g" index.html
           sed -i "s|href=\"index|href=\"dist/index|g" index.html
