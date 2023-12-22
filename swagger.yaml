@@ -1,1050 +1,2196 @@
-{
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Patient Wallet ClusterIP APIs",
-    "version": "1.0.0",
-    "description": "API for PatientWallet ClusterIP Services"
-  },
-  "paths": {
-    "/users": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get all users",
-        "description": "Retrieve a list of users based on parameters combination",
-        "parameters": [
-          {
-            "name": "userType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "client",
-                "provider"
-              ]
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "active",
-                "inactive",
-                "pending"
-              ]
-            }
-          },
-          {
-            "name": "emailVerificationStatus",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "verified",
-                "pendingVerification"
-              ]
-            }
-          },
-          {
-            "name": "dateRangeStartUtc",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "default": "1970-01-01T00:00:00Z"
-            },
-            "description": "When provided then dateRangeEndUtc is also needed else currentUtc dateTime is taken by default"
-          },
-          {
-            "name": "dateRangeEndUtc",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "default": "current UTC DateTime"
-            },
-            "description": "When provided then dateRangeStartUtc is also needed else 1st Jan 1970 UTC dateTime is taken by default"
-          },
-          {
-            "name": "dateRangeFilterMetric",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "createdAt",
-                "updatedAt"
-              ],
-              "default": "createdAt"
-            },
-            "description": "This is required when dateRangeStartUtc or dateRangeEndUtc is provided default is createdAt"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of users",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Creates a New User",
-        "description": "Creates a New User",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCreate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Creates a User using provided Body Params in Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Get a single User by Auth0 provided UserID",
-        "description": "Get a single User by Auth0 provided UserID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A single User",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{userId}": {
-      "put": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Endpoint to Update a User using PUT Verb",
-        "description": "Endpoint to Update a User using PUT Verb",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserUpdate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Updated User Values",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Endpoint to Update a User using PATCH Verb",
-        "description": "Endpoint to Update a User using PATCH Verb",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserUpdate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Updated User Values",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Endpoint to Delete a User by Auth0 provided UserID",
-        "description": "Endpoint to Delete a User by Auth0 provided UserID",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User Deleted!!"
-          }
-        }
-      }
-    },
-    "/notifications": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve all notifications",
-        "operationId": "getAllNotifications",
-        "responses": {
-          "200": {
-            "description": "A list of all notifications",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notifications/date-range": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve all notifications within a date range",
-        "operationId": "getNotificationsByDateRange",
-        "parameters": [
-          {
-            "name": "startDateUtc",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "endDateUtc",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of notifications within the specified date range",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notifications/user/{userId}": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve all notifications for a user",
-        "operationId": "getNotificationsByUserId",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "startDateUtc",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "endDateUtc",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of notifications for the specified user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notifications/channel/{channel}": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve all notifications for a specific channel",
-        "operationId": "getNotificationsByChannel",
-        "parameters": [
-          {
-            "name": "channel",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "startDateUtc",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "endDateUtc",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of notifications for the specified channel",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notifications/{notificationId}": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve a notification by ID",
-        "operationId": "getNotificationById",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A single notification",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotificationMessage"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Update a notification by ID",
-        "operationId": "updateNotificationById",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NotificationMessage"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Notification updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Delete a notification by ID",
-        "operationId": "deleteNotificationById",
-        "parameters": [
-          {
-            "name": "notificationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Notification deleted successfully"
-          }
-        }
-      }
-    },
-    "/notifications/delete": {
-      "post": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Delete notifications by criteria",
-        "operationId": "deleteNotificationsByCriteria",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": {
-                    "type": "string"
-                  },
-                  "startDateUtc": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "endDateUtc": {
-                    "type": "string",
-                    "format": "date-time"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Notifications deleted successfully"
-          }
-        }
-      }
-    },
-    "/notifications/{appointmentId}": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve notifications for an appointment",
-        "operationId": "getNotificationsByAppointmentId",
-        "parameters": [
-          {
-            "name": "appointmentId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "All notifications for this appointment",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notifications/{calendarEventId}": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Retrieve notifications for a calendarEvent",
-        "operationId": "getNotificationsByCalendarEventId",
-        "parameters": [
-          {
-            "name": "calendarEventId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "All notifications for this calendarEvent",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationMessage"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/logs": {
-      "get": {
-        "tags": [
-          "Logs"
-        ],
-        "summary": "Get Logs on Filters",
-        "description": "Get all logs based on filters passed in Query Params",
-        "parameters": [
-          {
-            "name": "startDateUtc",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "default": "1970-01-01T00:00:00Z"
-            }
-          },
-          {
-            "name": "endDateUtc",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time",
-              "default": "currentUtcDateTime"
-            }
-          },
-          {
-            "name": "serviceName",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "user",
-                "fhir",
-                "notifications",
-                "calendarschedular",
-                "conferencing",
-                "frontend",
-                "All"
-              ],
-              "default": "All"
-            }
-          },
-          {
-            "name": "entityName",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "User",
-                "FHIR",
-                "FHIRUserSync",
-                "Notification",
-                "Conferencing",
-                "Calendar",
-                "CalendarEvent",
-                "Availability",
-                "WorkingHours",
-                "Appointments",
-                "Attendee",
-                "Holidays",
-                "Notifications",
-                "UserNotificationSettings",
-                "All"
-              ],
-              "default": "All"
-            }
-          },
-          {
-            "name": "hasErrors",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "Yes",
-                "No",
-                "All"
-              ],
-              "default": "All"
-            }
-          },
-          {
-            "name": "sessionId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Logs for the matching filters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Log"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Logs"
-        ],
-        "summary": "Create a new Log record",
-        "description": "Using POST Verb to create a new Log record",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateLog"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "When a Log record is sucessfully Inserted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Log"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string"
-          },
-          "userType": {
-            "type": "string",
-            "enum": [
-              "client",
-              "provider"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "userStatus": {
-            "type": "string",
-            "enum": [
-              "active",
-              "inactive",
-              "pending"
-            ]
-          },
-          "profileImageUrl": {
-            "type": "string"
-          },
-          "emailVerificationStatus": {
-            "type": "string",
-            "enum": [
-              "verified",
-              "pending"
-            ]
-          }
-        }
-      },
-      "UserUpdate": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "string",
-            "enum": [
-              "active",
-              "inactive",
-              "pending"
-            ]
-          },
-          "emailVerificationStatusCode": {
-            "type": "string",
-            "enum": [
-              "verified",
-              "pendingVerification"
-            ]
-          },
-          "profileImageUrl": {
-            "type": "string"
-          }
-        }
-      },
-      "UserCreate": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string"
-          },
-          "userSharedkey": {
-            "type": "string"
-          },
-          "sessionState": {
-            "type": "string"
-          },
-          "userType": {
-            "type": "string",
-            "enum": [
-              "client",
-              "provider"
-            ]
-          },
-          "userStatus": {
-            "type": "string",
-            "enum": [
-              "active",
-              "inactive",
-              "pending"
-            ]
-          },
-          "profileImageUrl": {
-            "type": "string"
-          },
-          "emailVerificationStatus": {
-            "type": "string",
-            "enum": [
-              "verified",
-              "pendingVerification"
-            ]
-          }
-        }
-      },
-      "Log": {
-        "type": "object",
-        "properties": {
-          "logId": {
-            "type": "string"
-          },
-          "sessionId": {
-            "type": "string"
-          },
-          "serviceName": {
-            "type": "string",
-            "enum": [
-              "user",
-              "fhir",
-              "notifications",
-              "calendarschedular",
-              "conferencing",
-              "frontend",
-              "All"
-            ],
-            "default": "All"
-          },
-          "entityName": {
-            "type": "string",
-            "enum": [
-              "User",
-              "FHIR",
-              "FHIRUserSync",
-              "Notification",
-              "Conferencing",
-              "Calendar",
-              "CalendarEvent",
-              "Availability",
-              "WorkingHours",
-              "Appointments",
-              "Attendee",
-              "Holidays",
-              "Notifications",
-              "UserNotificationSettings",
-              "All"
-            ],
-            "default": "All"
-          },
-          "logLevel": {
-            "type": "string",
-            "enum": [
-              "information",
-              "warning",
-              "error"
-            ]
-          },
-          "loggedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "hasErrors": {
-            "type": "boolean"
-          },
-          "logMessage": {
-            "type": "string",
-            "description": "Message logged from the backend"
-          },
-          "errorMessage": {
-            "type": "string",
-            "description": "If a Log has an error then the actual error message body!!"
-          }
-        }
-      },
-      "CreateLog": {
-        "type": "object",
-        "properties": {
-          "ServiceName": {
-            "type": "string",
-            "enum": [
-              "User",
-              "FHIR",
-              "Notification",
-              "Conferencing",
-              "CalendarSchedule",
-              "FrontEnd",
-              "All"
-            ],
-            "default": "All"
-          },
-          "EntityName": {
-            "type": "string",
-            "enum": [
-              "User",
-              "FHIR",
-              "FHIRUserSync",
-              "Notification",
-              "Conferencing",
-              "Calendar",
-              "CalendarEvent",
-              "Availability",
-              "WorkingHours",
-              "Appointments",
-              "Attendee",
-              "Holidays",
-              "Notifications",
-              "UserNotificationSettings",
-              "All"
-            ],
-            "default": "All"
-          },
-          "LogLevel": {
-            "type": "string",
-            "enum": [
-              "Information",
-              "Warning",
-              "Error",
-              "All"
-            ],
-            "default": "All"
-          },
-          "SessionID": {
-            "type": "string"
-          },
-          "LoggedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "LogMessage": {
-            "type": "string",
-            "description": "A description of the message being logged in backend"
-          },
-          "ErrorMessage": {
-            "type": "string",
-            "description": "If an error is logged. Then the actual error Message. this will be NULL if there is no Error."
-          }
-        }
-      },
-      "NotificationMessage": {
-        "type": "object",
-        "properties": {
-          "messageId": {
-            "type": "string"
-          },
-          "eventTypeID": {
-            "type": "integer"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "recipientUser": {
-            "type": "string"
-          },
-          "payload": {
-            "type": "object",
-            "properties": {
-              "calendarEventID": {
-                "type": "integer"
-              },
-              "recipientUserType": {
-                "type": "string"
-              },
-              "triggerTimeUtc": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "notificationLink": {
-                "type": "string",
-                "format": "uri"
-              },
-              "notificationContent": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-      
-    }
-  }
-}
+openapi: 3.0.0
+info:
+  title: Patient Wallet ClusterIP APIs
+  version: 1.0.0
+  description: API for PatientWallet ClusterIP Services
+paths:
+  /users:
+    get:
+      tags:
+        - User
+      summary: Get all users
+      description: Retrieve a list of users based on parameters combination
+      parameters:
+        - name: userType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - client
+              - provider
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - pending
+        - name: emailVerificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - verified
+              - pendingVerification
+        - name: dateRangeStartUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '1970-01-01T00:00:00Z'
+          description: >-
+            When provided then dateRangeEndUtc is also needed else currentUtc
+            dateTime is taken by default
+        - name: dateRangeEndUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current UTC DateTime
+          description: >-
+            When provided then dateRangeStartUtc is also needed else 1st Jan
+            1970 UTC dateTime is taken by default
+        - name: dateRangeFilterMetric
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+            default: createdAt
+          description: >-
+            This is required when dateRangeStartUtc or dateRangeEndUtc is
+            provided default is createdAt
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - User
+      summary: Creates a New User
+      description: Creates a New User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '200':
+          description: Creates a User using provided Body Params in Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{id}:
+    get:
+      tags:
+        - User
+      summary: Get a single User by Auth0 provided UserID
+      description: Get a single User by Auth0 provided UserID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{userId}:
+    put:
+      tags:
+        - User
+      summary: Endpoint to Update a User using PUT Verb
+      description: Endpoint to Update a User using PUT Verb
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Updated User Values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    patch:
+      tags:
+        - User
+      summary: Endpoint to Update a User using PATCH Verb
+      description: Endpoint to Update a User using PATCH Verb
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Updated User Values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - User
+      summary: Endpoint to Delete a User by Auth0 provided UserID
+      description: Endpoint to Delete a User by Auth0 provided UserID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User Deleted!!
+  /notifications:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve all notifications
+      operationId: getAllNotifications
+      responses:
+        '200':
+          description: A list of all notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /notifications/date-range:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve all notifications within a date range
+      operationId: getNotificationsByDateRange
+      parameters:
+        - name: startDateUtc
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUtc
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: A list of notifications within the specified date range
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /notifications/user/{userId}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve all notifications for a user
+      operationId: getNotificationsByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: A list of notifications for the specified user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /notifications/channel/{channel}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve all notifications for a specific channel
+      operationId: getNotificationsByChannel
+      parameters:
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: startDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: A list of notifications for the specified channel
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /notifications/{notificationId}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve a notification by ID
+      operationId: getNotificationById
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single notification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationMessage'
+    patch:
+      tags:
+        - Notifications
+      summary: Update a notification by ID
+      operationId: updateNotificationById
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationMessage'
+      responses:
+        '200':
+          description: Notification updated successfully
+    delete:
+      tags:
+        - Notifications
+      summary: Delete a notification by ID
+      operationId: deleteNotificationById
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification deleted successfully
+  /notifications/delete:
+    post:
+      tags:
+        - Notifications
+      summary: Delete notifications by criteria
+      operationId: deleteNotificationsByCriteria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                startDateUtc:
+                  type: string
+                  format: date-time
+                endDateUtc:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Notifications deleted successfully
+  /notifications/{appointmentId}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve notifications for an appointment
+      operationId: getNotificationsByAppointmentId
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: All notifications for this appointment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /notifications/{calendarEventId}:
+    get:
+      tags:
+        - Notifications
+      summary: Retrieve notifications for a calendarEvent
+      operationId: getNotificationsByCalendarEventId
+      parameters:
+        - name: calendarEventId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: All notifications for this calendarEvent
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationMessage'
+  /logs:
+    get:
+      tags:
+        - Logs
+      summary: Get Logs on Filters
+      description: Get all logs based on filters passed in Query Params
+      parameters:
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '1970-01-01T00:00:00Z'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: currentUtcDateTime
+        - name: serviceName
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - user
+              - fhir
+              - notifications
+              - calendarschedular
+              - conferencing
+              - frontend
+              - All
+            default: All
+        - name: entityName
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - User
+              - FHIR
+              - FHIRUserSync
+              - Notification
+              - Conferencing
+              - Calendar
+              - CalendarEvent
+              - Availability
+              - WorkingHours
+              - Appointments
+              - Attendee
+              - Holidays
+              - Notifications
+              - UserNotificationSettings
+              - All
+            default: All
+        - name: hasErrors
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - 'Yes'
+              - 'No'
+              - All
+            default: All
+        - name: sessionId
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Logs for the matching filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Log'
+    post:
+      tags:
+        - Logs
+      summary: Create a new Log record
+      description: Using POST Verb to create a new Log record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLog'
+      responses:
+        '200':
+          description: When a Log record is sucessfully Inserted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+  /availability/{providerId}:
+    get:
+      tags:
+        - Availability
+      summary: Gets Availability from Providers
+      description: >-
+        This endpoints provides filters to tune availability extracted from a
+        provider using provider's userId. Data Source is a stored procedure that
+        calculates Availability from calendars, Events, Appointments, holidays
+        entities
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Gets Availability of a provider based on provider's Auth0 UUID
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: Responses for availability GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availabilities'
+  /availability/{calendarId}:
+    get:
+      tags:
+        - Availability
+      summary: Gets Availability from Providers
+      description: >-
+        This endpoints provides filters to tune availability extracted from a
+        provider using provider's calendarId. Data Source is a stored procedure
+        that calculates Availability from calendars, Events, Appointments,
+        holidays entities
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Gets Availability of a provider based on provider's calendarID
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: Responses for availability GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availabilities'
+  /availability/bulk/users:
+    get:
+      tags:
+        - Availability
+      summary: Gets Availability from Providers
+      description: >-
+        This endpoints provides filters to tune availability extracted from
+        multiple providers in bulk using CSV of their AUTH0 provided UUIDs. Data
+        Source is a stored procedure that calculates Availability from
+        calendars, Events, Appointments, holidays entities
+      parameters:
+        - name: providerIds
+          in: query
+          description: Comma-separated list of values
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: Responses for availability GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availabilities'
+  /availability/bulk/calendars:
+    get:
+      tags:
+        - Availability
+      summary: Gets Availability from Providers
+      description: >-
+        This endpoints provides filters to tune availability extracted from
+        multiple providers in bulk using CSV of their calendarIds. Data Source
+        is a stored procedure that calculates Availability from calendars,
+        Events, Appointments, holidays entities
+      parameters:
+        - name: providerCalendarIds
+          in: query
+          description: Comma-separated list of values
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: Responses for availability GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availabilities'
+  /availability/{availabilitySlotId}:
+    get:
+      tags:
+        - Availability
+      summary: Gets Availability from Providers
+      description: >-
+        This endpoints provides filters to tune availability extracted from a
+        provider using provider's userId. Data Source is a stored procedure that
+        calculates Availability from calendars, Events, Appointments, holidays
+        entities
+      parameters:
+        - name: availabilitySlotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Gets a single Availability Slot
+      responses:
+        '200':
+          description: Responses for availability GET Query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Availability'
+  /appointments/{calendarId}:
+    get:
+      tags:
+        - Appointments
+      summary: Gets all Appointments for a user by CalendarId
+      description: >-
+        Fetches Appointments for Users based on their CalendarIds. Returns One
+        user's data at a time. This is also paginated but can be queried based
+        on time as well
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: startTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: endDateTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: appointmentStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - rescheduled
+              - deleted
+              - completed
+              - all
+            default: all
+      responses:
+        '200':
+          description: Responses for appointments GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointments'
+  /appointments/user/{organizerId}:
+    get:
+      tags:
+        - Appointments
+      summary: Gets all Appointments for a user by OrganizerId
+      description: >-
+        Fetches Appointments for a user based on their userId and role being
+        Organizer. Returns One user's data at a time. This is also paginated but
+        can be queried based on time as well
+      parameters:
+        - name: organizerId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: startTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: endDateTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: appointmentStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - rescheduled
+              - deleted
+              - completed
+              - all
+            default: all
+      responses:
+        '200':
+          description: Responses for appointments GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointments'
+  /appointments/user/{attendeeId}:
+    get:
+      tags:
+        - Appointments
+      summary: Gets all Appointments for a user by attendeeId
+      description: >-
+        Fetches Appointments for a user based on their userId and role being
+        Organizer. Returns One user's data at a time. This is also paginated but
+        can be queried based on time as well
+      parameters:
+        - name: attendeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: startTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: endDateTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: appointmentStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - rescheduled
+              - deleted
+              - completed
+              - all
+            default: all
+      responses:
+        '200':
+          description: Responses for appointments GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointments'
+  /appointments/user/attendees:
+    get:
+      tags:
+        - Appointments
+      summary: Gets all Appointments for two attendees
+      description: Fetches Appointments where attendees are known
+      parameters:
+        - name: attendeeIds
+          in: query
+          description: Comma-separated list of values
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: endDateTimeUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: current utc dateTime
+        - name: appointmentStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - rescheduled
+              - deleted
+              - completed
+              - all
+            default: all
+      responses:
+        '200':
+          description: Responses for appointments GET Query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointments'
+  /appointments/{appointmentId}:
+    get:
+      tags:
+        - Appointments
+      summary: Gets a single Appointment
+      description: Fetches a single Appointment by AppointmentId
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Responses for appointments GET Query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /appointments/create:
+    post:
+      tags:
+        - Appointments
+      summary: Creates a New Appointment from request Body
+      description: Uses RequestBody to create an Appointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAppointment'
+      responses:
+        '200':
+          description: A Single Appointment Response for created Appointment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /appointments/reschedule/{appointmentId}:
+    put:
+      tags:
+        - Appointments
+      summary: Reschedules a Booked Appointment
+      description: Reschedules a Booked Appointment
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeAppointment'
+      responses:
+        '200':
+          description: Returns a single altered appointment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /appointments/{appointmentId}/delete:
+    delete:
+      tags:
+        - Appointments
+      summary: Deletes an Appointment
+      description: Deletes an Appointment
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Appointment deleted!!
+  /workinghours/{providerId}:
+    get:
+      tags:
+        - WorkingHours
+      summary: Gets WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHours'
+  /workinghours/{calendarId}:
+    get:
+      tags:
+        - WorkingHours
+      summary: Gets WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHours'
+  /workinghours/create/{calendarId}:
+    post:
+      tags:
+        - WorkingHours
+      summary: Creates WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /workinghours/create/{providerId}:
+    post:
+      tags:
+        - WorkingHours
+      summary: Creates WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /workinghours/alter/{calendarId}:
+    patch:
+      tags:
+        - WorkingHours
+      summary: Creates WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /workinghours/alter/{providerId}:
+    patch:
+      tags:
+        - WorkingHours
+      summary: Creates WorkingHours for a Provider
+      description: Gets WorkingHours for a Provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Working Hours paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /workinghours/delete/{calendarId}:
+    delete:
+      tags:
+        - WorkingHours
+      summary: Deletes a WorkingHourPattern
+      description: Deletes a WorkingHourPattern
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Working Hours Deleted!!
+  /workinghours/delete/{providerId}:
+    delete:
+      tags:
+        - WorkingHours
+      summary: Deletes a WorkingHourPattern
+      description: Deletes a WorkingHourPattern
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Working Hours Deleted!!
+  /reminders/{calendarId}:
+    get:
+      tags:
+        - Reminders
+      summary: Gets all Reminders for this CalendarId
+      description: Gets all Reminders for this CalendarId
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHours'
+  /reminders/{providerId}:
+    get:
+      tags:
+        - Reminders
+      summary: Gets all Reminders for this CalendarId
+      description: Gets all Reminders for this CalendarId
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHours'
+  /reminders/create/{calendarId}:
+    post:
+      tags:
+        - Reminders
+      summary: Creates Reminders for a Provider
+      description: Gets Reminders for a Provider
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /reminders/create/{providerId}:
+    post:
+      tags:
+        - Reminders
+      summary: Creates Reminders for a Provider
+      description: Gets Reminders for a Provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /reminders/alter/{calendarId}:
+    patch:
+      tags:
+        - Reminders
+      summary: Creates Reminders for a Provider
+      description: Gets Reminders for a Provider
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /reminders/alter/{providerId}:
+    patch:
+      tags:
+        - Reminders
+      summary: Creates Reminders for a Provider
+      description: Gets Reminders for a Provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+      responses:
+        '200':
+          description: List of all Reminders paginated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingHour'
+  /reminders/delete/{calendarId}:
+    delete:
+      tags:
+        - Reminders
+      summary: Deletes a RemindersPattern
+      description: Deletes a RemindersPattern
+      parameters:
+        - name: calendarId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reminders Deleted!!
+  /reminders/delete/{providerId}:
+    delete:
+      tags:
+        - Reminders
+      summary: Deletes a RemindersPattern
+      description: Deletes a RemindersPattern
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reminders Deleted!!
+  /calendar/{userId}:
+    get:
+      tags:
+        - Calendar
+      summary: GETs Calendar for the user
+      description: GETs Calendar for the user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Calendar Entity JSON Representation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+    post:
+      tags:
+        - Calendar
+      summary: Creates Calendar for this User
+      description: Creates Calendar for this User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateCalendar'
+      responses:
+        '200':
+          description: Creates a Calendar using provided Body Params in Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+    patch:
+      tags:
+        - Calendar
+      summary: Alters Calendar for this User
+      description: Alters Calendar for this User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateCalendar'
+      responses:
+        '200':
+          description: Alters a Calendar using provided Body Params in Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+    delete:
+      tags:
+        - Calendar
+      summary: Deletes Calendar for this User
+      description: Deletes Calendar for this User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deletes the Calendar for this User
+  /holidays:
+    get:
+      tags:
+        - Holidays
+      summary: GETs Holidays for date range
+      description: GETs Holidays for date range
+      parameters:
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: pageNumber
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: startDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+        - name: endDateUtc
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            default: '2023-12-21'
+      responses:
+        '200':
+          description: Holidays
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holidays'
+    post:
+      tags:
+        - Holidays
+      summary: Creates Holiday with request parameters
+      description: Creates Holiday with request parameters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateHoliday'
+      responses:
+        '200':
+          description: Creates a Holiday using provided Body Params in Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holiday'
+    patch:
+      tags:
+        - Holidays
+      summary: Alters Holiday
+      description: Alters Holiday
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUpdateHoliday'
+      responses:
+        '200':
+          description: Alters a Holiday using provided Body Params in Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holiday'
+    delete:
+      tags:
+        - Holidays
+      summary: Deletes Holiday
+      description: Deletes Holiday
+      parameters:
+        - name: holidayId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Deletes the Holiday
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        userType:
+          type: string
+          enum:
+            - client
+            - provider
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        userStatus:
+          type: string
+          enum:
+            - active
+            - inactive
+            - pending
+        profileImageUrl:
+          type: string
+        emailVerificationStatus:
+          type: string
+          enum:
+            - verified
+            - pending
+    UserUpdate:
+      type: object
+      properties:
+        statusCode:
+          type: string
+          enum:
+            - active
+            - inactive
+            - pending
+        emailVerificationStatusCode:
+          type: string
+          enum:
+            - verified
+            - pendingVerification
+        profileImageUrl:
+          type: string
+    UserCreate:
+      type: object
+      properties:
+        userId:
+          type: string
+        userSharedkey:
+          type: string
+        sessionState:
+          type: string
+        userType:
+          type: string
+          enum:
+            - client
+            - provider
+        userStatus:
+          type: string
+          enum:
+            - active
+            - inactive
+            - pending
+        profileImageUrl:
+          type: string
+        emailVerificationStatus:
+          type: string
+          enum:
+            - verified
+            - pendingVerification
+    Log:
+      type: object
+      properties:
+        logId:
+          type: string
+        sessionId:
+          type: string
+        serviceName:
+          type: string
+          enum:
+            - user
+            - fhir
+            - notifications
+            - calendarschedular
+            - conferencing
+            - frontend
+            - All
+          default: All
+        entityName:
+          type: string
+          enum:
+            - User
+            - FHIR
+            - FHIRUserSync
+            - Notification
+            - Conferencing
+            - Calendar
+            - CalendarEvent
+            - Availability
+            - WorkingHours
+            - Appointments
+            - Attendee
+            - Holidays
+            - Notifications
+            - UserNotificationSettings
+            - All
+          default: All
+        logLevel:
+          type: string
+          enum:
+            - information
+            - warning
+            - error
+        loggedAt:
+          type: string
+          format: date-time
+        hasErrors:
+          type: boolean
+        logMessage:
+          type: string
+          description: Message logged from the backend
+        errorMessage:
+          type: string
+          description: If a Log has an error then the actual error message body!!
+    CreateLog:
+      type: object
+      properties:
+        ServiceName:
+          type: string
+          enum:
+            - User
+            - FHIR
+            - Notification
+            - Conferencing
+            - CalendarSchedule
+            - FrontEnd
+            - All
+          default: All
+        EntityName:
+          type: string
+          enum:
+            - User
+            - FHIR
+            - FHIRUserSync
+            - Notification
+            - Conferencing
+            - Calendar
+            - CalendarEvent
+            - Availability
+            - WorkingHours
+            - Appointments
+            - Attendee
+            - Holidays
+            - Notifications
+            - UserNotificationSettings
+            - All
+          default: All
+        LogLevel:
+          type: string
+          enum:
+            - Information
+            - Warning
+            - Error
+            - All
+          default: All
+        SessionID:
+          type: string
+        LoggedAt:
+          type: string
+          format: date-time
+        LogMessage:
+          type: string
+          description: A description of the message being logged in backend
+        ErrorMessage:
+          type: string
+          description: >-
+            If an error is logged. Then the actual error Message. this will be
+            NULL if there is no Error.
+    NotificationMessage:
+      type: object
+      properties:
+        messageId:
+          type: string
+        eventTypeID:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+        recipientUser:
+          type: string
+        payload:
+          type: object
+          properties:
+            calendarEventID:
+              type: integer
+            recipientUserType:
+              type: string
+            triggerTimeUtc:
+              type: string
+              format: date-time
+            notificationLink:
+              type: string
+              format: uri
+            notificationContent:
+              type: string
+    Appointments:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Appointment'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Appointment:
+      type: object
+      properties:
+        AppointmentID:
+          type: integer
+        OrganizerID:
+          type: string
+        StartTimeUtc:
+          type: string
+          format: date-time
+        EndTimeUtc:
+          type: string
+          format: date-time
+        Duration:
+          type: integer
+        subject:
+          type: string
+        description:
+          type: string
+        AppointmentStatus:
+          type: string
+          enum:
+            - active
+            - rescheduled
+            - deleted
+            - noshow
+            - completed
+        Attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attendee'
+    CreateAppointment:
+      type: object
+      properties:
+        OrganizerID:
+          type: string
+        StartTimeUtc:
+          type: string
+          format: date-time
+        EndTimeUtc:
+          type: string
+          format: date-time
+        Duration:
+          type: integer
+        subject:
+          type: string
+        description:
+          type: string
+        AppointmentStatus:
+          type: string
+          enum:
+            - active
+            - rescheduled
+            - deleted
+            - noshow
+            - completed
+        SessionID:
+          type: string
+          description: AUth0 JWT deciphered
+        HasError:
+          type: boolean
+          default: false
+        ErrorMessage:
+          type: string
+        Attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attendee'
+    ChangeAppointment:
+      type: object
+      properties:
+        OrganizerID:
+          type: string
+        StartTimeUtc:
+          type: string
+          format: date-time
+        EndTimeUtc:
+          type: string
+          format: date-time
+        Duration:
+          type: integer
+        subject:
+          type: string
+        description:
+          type: string
+        AppointmentStatus:
+          type: string
+          enum:
+            - active
+            - rescheduled
+            - deleted
+            - noshow
+            - completed
+        Attendees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attendee'
+    Attendee:
+      type: object
+      properties:
+        AttendeeID:
+          type: string
+        UserID:
+          type: string
+        ResponseStatus:
+          type: string
+          enum:
+            - accepted
+            - declined
+            - noresponse
+            - tentative
+    Reminders:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reminder'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Reminder:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        CalendarEventID:
+          type: integer
+        StartDateUtc:
+          type: string
+          format: date-time
+        EndDateUtc:
+          type: string
+          format: date-time
+        IsRecurring:
+          type: boolean
+          default: false
+        RecurringCount:
+          type: integer
+    WorkingHours:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkingHour'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    WorkingHour:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        CalendarEventID:
+          type: integer
+        StartDateUtc:
+          type: string
+          format: date-time
+        EndDateUtc:
+          type: string
+          format: date-time
+        IsRecurring:
+          type: boolean
+          default: false
+        RecurringCount:
+          type: integer
+    CreateUpdateWorkingHours:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        StartDateUtc:
+          type: string
+          format: date-time
+        EndDateUtc:
+          type: string
+          format: date-time
+        RecurringPattern:
+          type: array
+          items:
+            type: integer
+          default: 23456
+        IsRecurring:
+          type: boolean
+          default: false
+        RecurringCount:
+          type: integer
+    CalendarEvent:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        CalendarEventID:
+          type: integer
+        CalendarEventType:
+          type: string
+          enum:
+            - holidays
+            - workingHours
+            - Appointment
+            - Reminders
+            - general
+        AppointmentID:
+          type: integer
+        StartDateUtc:
+          type: string
+          format: date-time
+        EndDateUtc:
+          type: string
+          format: date-time
+        IsRecurring:
+          type: boolean
+          default: false
+        RecurringCount:
+          type: integer
+    CreateUpdateCalendarEvent:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        CalendarEventType:
+          type: string
+          enum:
+            - holidays
+            - workingHours
+            - Appointment
+            - Reminders
+            - general
+        AppointmentID:
+          type: integer
+        StartDateUtc:
+          type: string
+          format: date-time
+        EndDateUtc:
+          type: string
+          format: date-time
+        IsRecurring:
+          type: boolean
+          default: false
+        RecurringCount:
+          type: integer
+    Calendar:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        UserID:
+          type: integer
+        UserDeviceTimeZone:
+          type: string
+          description: IANA TZ String picked by default from Device
+        UserTimeZone:
+          type: string
+          description: IANA TZ String
+    CreateUpdateCalendar:
+      type: object
+      properties:
+        CalendarID:
+          type: integer
+        UserID:
+          type: integer
+        UserDeviceTimeZone:
+          type: string
+          description: IANA TZ String picked by default from Device
+        UserTimeZone:
+          type: string
+          description: IANA TZ String
+    Availabilities:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Availability:
+      type: object
+      properties:
+        AvailabilitySlotID:
+          type: integer
+        UserID:
+          type: string
+          description: Auth0 provided User UUID
+        DateStartUtc:
+          type: string
+          format: date-time
+          default: current utc dateTime
+        DateEndUtc:
+          type: string
+          format: date-time
+          default: current utc dateTime
+    Holidays:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Holiday'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    Holiday:
+      type: object
+      properties:
+        HolidayID:
+          type: integer
+        Name:
+          type: string
+        Year:
+          type: integer
+          exclusiveMinimum: 2023
+          exclusiveMaximum: 3001
+        Month:
+          type: integer
+          exclusiveMinimum: 0
+          exclusiveMaximum: 13
+        Date:
+          type: integer
+          exclusiveMinimum: 0
+          exclusiveMaximum: 32
+    CreateUpdateHoliday:
+      type: object
+      properties:
+        Name:
+          type: string
+        Year:
+          type: integer
+          exclusiveMinimum: 2023
+          exclusiveMaximum: 3001
+        Month:
+          type: integer
+          exclusiveMinimum: 0
+          exclusiveMaximum: 13
+        Date:
+          type: integer
+          exclusiveMinimum: 0
+          exclusiveMaximum: 32
+    Pagination:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+        pageNumber:
+          type: integer
+        totalCount:
+          type: integer
