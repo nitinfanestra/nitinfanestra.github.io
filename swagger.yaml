@@ -76,7 +76,34 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                    userType:
+                      type: string
+                      enum:
+                        - client
+                        - provider
+                    createdAt:
+                      type: string
+                      format: date-time
+                    updatedAt:
+                      type: string
+                      format: date-time
+                    userStatus:
+                      type: string
+                      enum:
+                        - active
+                        - inactive
+                        - pending
+                    profileImageUrl:
+                      type: string
+                    emailVerificationStatus:
+                      type: string
+                      enum:
+                        - verified
+                        - pending
     post:
       tags:
         - User
@@ -87,14 +114,66 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCreate'
+              type: object
+              properties:
+                userId:
+                  type: string
+                userSharedkey:
+                  type: string
+                sessionState:
+                  type: string
+                userType:
+                  type: string
+                  enum:
+                    - client
+                    - provider
+                userStatus:
+                  type: string
+                  enum:
+                    - active
+                    - inactive
+                    - pending
+                profileImageUrl:
+                  type: string
+                emailVerificationStatus:
+                  type: string
+                  enum:
+                    - verified
+                    - pendingVerification
       responses:
         '200':
           description: Creates a User using provided Body Params in Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  userType:
+                    type: string
+                    enum:
+                      - client
+                      - provider
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  userStatus:
+                    type: string
+                    enum:
+                      - active
+                      - inactive
+                      - pending
+                  profileImageUrl:
+                    type: string
+                  emailVerificationStatus:
+                    type: string
+                    enum:
+                      - verified
+                      - pending
   /users/{id}:
     get:
       tags:
@@ -113,7 +192,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  userType:
+                    type: string
+                    enum:
+                      - client
+                      - provider
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  userStatus:
+                    type: string
+                    enum:
+                      - active
+                      - inactive
+                      - pending
+                  profileImageUrl:
+                    type: string
+                  emailVerificationStatus:
+                    type: string
+                    enum:
+                      - verified
+                      - pending
   /users/{userId}:
     put:
       tags:
@@ -131,14 +237,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdate'
+              type: object
+              properties:
+                statusCode:
+                  type: string
+                  enum:
+                    - active
+                    - inactive
+                    - pending
+                emailVerificationStatusCode:
+                  type: string
+                  enum:
+                    - verified
+                    - pendingVerification
+                profileImageUrl:
+                  type: string
       responses:
         '200':
           description: Updated User Values
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  userType:
+                    type: string
+                    enum:
+                      - client
+                      - provider
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  userStatus:
+                    type: string
+                    enum:
+                      - active
+                      - inactive
+                      - pending
+                  profileImageUrl:
+                    type: string
+                  emailVerificationStatus:
+                    type: string
+                    enum:
+                      - verified
+                      - pending
     patch:
       tags:
         - User
@@ -155,14 +302,55 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdate'
+              type: object
+              properties:
+                statusCode:
+                  type: string
+                  enum:
+                    - active
+                    - inactive
+                    - pending
+                emailVerificationStatusCode:
+                  type: string
+                  enum:
+                    - verified
+                    - pendingVerification
+                profileImageUrl:
+                  type: string
       responses:
         '200':
           description: Updated User Values
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  userType:
+                    type: string
+                    enum:
+                      - client
+                      - provider
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                  userStatus:
+                    type: string
+                    enum:
+                      - active
+                      - inactive
+                      - pending
+                  profileImageUrl:
+                    type: string
+                  emailVerificationStatus:
+                    type: string
+                    enum:
+                      - verified
+                      - pending
     delete:
       tags:
         - User
@@ -191,7 +379,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /notifications/date-range:
     get:
       tags:
@@ -219,7 +432,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /notifications/user/{userId}:
     get:
       tags:
@@ -250,7 +488,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /notifications/channel/{channel}:
     get:
       tags:
@@ -281,7 +544,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /notifications/{notificationId}:
     get:
       tags:
@@ -300,7 +588,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotificationMessage'
+                type: object
+                properties:
+                  messageId:
+                    type: string
+                  eventTypeID:
+                    type: integer
+                  timestamp:
+                    type: string
+                    format: date-time
+                  recipientUser:
+                    type: string
+                  payload:
+                    type: object
+                    properties:
+                      calendarEventID:
+                        type: integer
+                      recipientUserType:
+                        type: string
+                      triggerTimeUtc:
+                        type: string
+                        format: date-time
+                      notificationLink:
+                        type: string
+                        format: uri
+                      notificationContent:
+                        type: string
     patch:
       tags:
         - Notifications
@@ -317,7 +630,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NotificationMessage'
+              type: object
+              properties:
+                messageId:
+                  type: string
+                eventTypeID:
+                  type: integer
+                timestamp:
+                  type: string
+                  format: date-time
+                recipientUser:
+                  type: string
+                payload:
+                  type: object
+                  properties:
+                    calendarEventID:
+                      type: integer
+                    recipientUserType:
+                      type: string
+                    triggerTimeUtc:
+                      type: string
+                      format: date-time
+                    notificationLink:
+                      type: string
+                      format: uri
+                    notificationContent:
+                      type: string
       responses:
         '200':
           description: Notification updated successfully
@@ -379,7 +717,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /notifications/{calendarEventId}:
     get:
       tags:
@@ -400,7 +763,32 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/NotificationMessage'
+                  type: object
+                  properties:
+                    messageId:
+                      type: string
+                    eventTypeID:
+                      type: integer
+                    timestamp:
+                      type: string
+                      format: date-time
+                    recipientUser:
+                      type: string
+                    payload:
+                      type: object
+                      properties:
+                        calendarEventID:
+                          type: integer
+                        recipientUserType:
+                          type: string
+                        triggerTimeUtc:
+                          type: string
+                          format: date-time
+                        notificationLink:
+                          type: string
+                          format: uri
+                        notificationContent:
+                          type: string
   /logs:
     get:
       tags:
@@ -481,7 +869,61 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Log'
+                  type: object
+                  properties:
+                    logId:
+                      type: string
+                    sessionId:
+                      type: string
+                    serviceName:
+                      type: string
+                      enum:
+                        - user
+                        - fhir
+                        - notifications
+                        - calendarschedular
+                        - conferencing
+                        - frontend
+                        - All
+                      default: All
+                    entityName:
+                      type: string
+                      enum:
+                        - User
+                        - FHIR
+                        - FHIRUserSync
+                        - Notification
+                        - Conferencing
+                        - Calendar
+                        - CalendarEvent
+                        - Availability
+                        - WorkingHours
+                        - Appointments
+                        - Attendee
+                        - Holidays
+                        - Notifications
+                        - UserNotificationSettings
+                        - All
+                      default: All
+                    logLevel:
+                      type: string
+                      enum:
+                        - information
+                        - warning
+                        - error
+                    loggedAt:
+                      type: string
+                      format: date-time
+                    hasErrors:
+                      type: boolean
+                    logMessage:
+                      type: string
+                      description: Message logged from the backend
+                    errorMessage:
+                      type: string
+                      description: >-
+                        If a Log has an error then the actual error message
+                        body!!
     post:
       tags:
         - Logs
@@ -492,14 +934,118 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateLog'
+              type: object
+              properties:
+                ServiceName:
+                  type: string
+                  enum:
+                    - User
+                    - FHIR
+                    - Notification
+                    - Conferencing
+                    - CalendarSchedule
+                    - FrontEnd
+                    - All
+                  default: All
+                EntityName:
+                  type: string
+                  enum:
+                    - User
+                    - FHIR
+                    - FHIRUserSync
+                    - Notification
+                    - Conferencing
+                    - Calendar
+                    - CalendarEvent
+                    - Availability
+                    - WorkingHours
+                    - Appointments
+                    - Attendee
+                    - Holidays
+                    - Notifications
+                    - UserNotificationSettings
+                    - All
+                  default: All
+                LogLevel:
+                  type: string
+                  enum:
+                    - Information
+                    - Warning
+                    - Error
+                    - All
+                  default: All
+                SessionID:
+                  type: string
+                LoggedAt:
+                  type: string
+                  format: date-time
+                LogMessage:
+                  type: string
+                  description: A description of the message being logged in backend
+                ErrorMessage:
+                  type: string
+                  description: >-
+                    If an error is logged. Then the actual error Message. this
+                    will be NULL if there is no Error.
       responses:
         '200':
           description: When a Log record is sucessfully Inserted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Log'
+                type: object
+                properties:
+                  logId:
+                    type: string
+                  sessionId:
+                    type: string
+                  serviceName:
+                    type: string
+                    enum:
+                      - user
+                      - fhir
+                      - notifications
+                      - calendarschedular
+                      - conferencing
+                      - frontend
+                      - All
+                    default: All
+                  entityName:
+                    type: string
+                    enum:
+                      - User
+                      - FHIR
+                      - FHIRUserSync
+                      - Notification
+                      - Conferencing
+                      - Calendar
+                      - CalendarEvent
+                      - Availability
+                      - WorkingHours
+                      - Appointments
+                      - Attendee
+                      - Holidays
+                      - Notifications
+                      - UserNotificationSettings
+                      - All
+                    default: All
+                  logLevel:
+                    type: string
+                    enum:
+                      - information
+                      - warning
+                      - error
+                  loggedAt:
+                    type: string
+                    format: date-time
+                  hasErrors:
+                    type: boolean
+                  logMessage:
+                    type: string
+                    description: Message logged from the backend
+                  errorMessage:
+                    type: string
+                    description: If a Log has an error then the actual error message body!!
   /availability/{providerId}:
     get:
       tags:
@@ -551,7 +1097,35 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Availabilities'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AvailabilitySlotID:
+                            type: integer
+                          UserID:
+                            type: string
+                            description: Auth0 provided User UUID
+                          DateStartUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                          DateEndUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /availability/{calendarId}:
     get:
       tags:
@@ -603,7 +1177,35 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Availabilities'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AvailabilitySlotID:
+                            type: integer
+                          UserID:
+                            type: string
+                            description: Auth0 provided User UUID
+                          DateStartUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                          DateEndUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /availability/bulk/users:
     get:
       tags:
@@ -659,7 +1261,35 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Availabilities'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AvailabilitySlotID:
+                            type: integer
+                          UserID:
+                            type: string
+                            description: Auth0 provided User UUID
+                          DateStartUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                          DateEndUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /availability/bulk/calendars:
     get:
       tags:
@@ -715,7 +1345,35 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Availabilities'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AvailabilitySlotID:
+                            type: integer
+                          UserID:
+                            type: string
+                            description: Auth0 provided User UUID
+                          DateStartUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                          DateEndUtc:
+                            type: string
+                            format: date-time
+                            default: current utc dateTime
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /availability/{availabilitySlotId}:
     get:
       tags:
@@ -739,7 +1397,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Availability'
+                type: object
+                properties:
+                  AvailabilitySlotID:
+                    type: integer
+                  UserID:
+                    type: string
+                    description: Auth0 provided User UUID
+                  DateStartUtc:
+                    type: string
+                    format: date-time
+                    default: current utc dateTime
+                  DateEndUtc:
+                    type: string
+                    format: date-time
+                    default: current utc dateTime
   /appointments/{calendarId}:
     get:
       tags:
@@ -789,7 +1461,62 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Appointments'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AppointmentID:
+                            type: integer
+                          OrganizerID:
+                            type: string
+                          StartTimeUtc:
+                            type: string
+                            format: date-time
+                          EndTimeUtc:
+                            type: string
+                            format: date-time
+                          Duration:
+                            type: integer
+                          subject:
+                            type: string
+                          description:
+                            type: string
+                          AppointmentStatus:
+                            type: string
+                            enum:
+                              - active
+                              - rescheduled
+                              - deleted
+                              - noshow
+                              - completed
+                          Attendees:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                AttendeeID:
+                                  type: string
+                                UserID:
+                                  type: string
+                                ResponseStatus:
+                                  type: string
+                                  enum:
+                                    - accepted
+                                    - declined
+                                    - noresponse
+                                    - tentative
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /appointments/user/{organizerId}:
     get:
       tags:
@@ -839,7 +1566,62 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Appointments'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AppointmentID:
+                            type: integer
+                          OrganizerID:
+                            type: string
+                          StartTimeUtc:
+                            type: string
+                            format: date-time
+                          EndTimeUtc:
+                            type: string
+                            format: date-time
+                          Duration:
+                            type: integer
+                          subject:
+                            type: string
+                          description:
+                            type: string
+                          AppointmentStatus:
+                            type: string
+                            enum:
+                              - active
+                              - rescheduled
+                              - deleted
+                              - noshow
+                              - completed
+                          Attendees:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                AttendeeID:
+                                  type: string
+                                UserID:
+                                  type: string
+                                ResponseStatus:
+                                  type: string
+                                  enum:
+                                    - accepted
+                                    - declined
+                                    - noresponse
+                                    - tentative
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /appointments/user/{attendeeId}:
     get:
       tags:
@@ -889,7 +1671,62 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Appointments'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AppointmentID:
+                            type: integer
+                          OrganizerID:
+                            type: string
+                          StartTimeUtc:
+                            type: string
+                            format: date-time
+                          EndTimeUtc:
+                            type: string
+                            format: date-time
+                          Duration:
+                            type: integer
+                          subject:
+                            type: string
+                          description:
+                            type: string
+                          AppointmentStatus:
+                            type: string
+                            enum:
+                              - active
+                              - rescheduled
+                              - deleted
+                              - noshow
+                              - completed
+                          Attendees:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                AttendeeID:
+                                  type: string
+                                UserID:
+                                  type: string
+                                ResponseStatus:
+                                  type: string
+                                  enum:
+                                    - accepted
+                                    - declined
+                                    - noresponse
+                                    - tentative
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /appointments/user/attendees:
     get:
       tags:
@@ -941,7 +1778,62 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Appointments'
+                  type: object
+                  properties:
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          AppointmentID:
+                            type: integer
+                          OrganizerID:
+                            type: string
+                          StartTimeUtc:
+                            type: string
+                            format: date-time
+                          EndTimeUtc:
+                            type: string
+                            format: date-time
+                          Duration:
+                            type: integer
+                          subject:
+                            type: string
+                          description:
+                            type: string
+                          AppointmentStatus:
+                            type: string
+                            enum:
+                              - active
+                              - rescheduled
+                              - deleted
+                              - noshow
+                              - completed
+                          Attendees:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                AttendeeID:
+                                  type: string
+                                UserID:
+                                  type: string
+                                ResponseStatus:
+                                  type: string
+                                  enum:
+                                    - accepted
+                                    - declined
+                                    - noresponse
+                                    - tentative
+                    pagination:
+                      type: object
+                      properties:
+                        pageSize:
+                          type: integer
+                        pageNumber:
+                          type: integer
+                        totalCount:
+                          type: integer
   /appointments/{appointmentId}:
     get:
       tags:
@@ -960,7 +1852,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Appointment'
+                type: object
+                properties:
+                  AppointmentID:
+                    type: integer
+                  OrganizerID:
+                    type: string
+                  StartTimeUtc:
+                    type: string
+                    format: date-time
+                  EndTimeUtc:
+                    type: string
+                    format: date-time
+                  Duration:
+                    type: integer
+                  subject:
+                    type: string
+                  description:
+                    type: string
+                  AppointmentStatus:
+                    type: string
+                    enum:
+                      - active
+                      - rescheduled
+                      - deleted
+                      - noshow
+                      - completed
+                  Attendees:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        AttendeeID:
+                          type: string
+                        UserID:
+                          type: string
+                        ResponseStatus:
+                          type: string
+                          enum:
+                            - accepted
+                            - declined
+                            - noresponse
+                            - tentative
   /appointments/create:
     post:
       tags:
@@ -972,14 +1905,102 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateAppointment'
+              type: object
+              properties:
+                OrganizerID:
+                  type: string
+                StartTimeUtc:
+                  type: string
+                  format: date-time
+                EndTimeUtc:
+                  type: string
+                  format: date-time
+                Duration:
+                  type: integer
+                subject:
+                  type: string
+                description:
+                  type: string
+                AppointmentStatus:
+                  type: string
+                  enum:
+                    - active
+                    - rescheduled
+                    - deleted
+                    - noshow
+                    - completed
+                SessionID:
+                  type: string
+                  description: AUth0 JWT deciphered
+                HasError:
+                  type: boolean
+                  default: false
+                ErrorMessage:
+                  type: string
+                Attendees:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      AttendeeID:
+                        type: string
+                      UserID:
+                        type: string
+                      ResponseStatus:
+                        type: string
+                        enum:
+                          - accepted
+                          - declined
+                          - noresponse
+                          - tentative
       responses:
         '200':
           description: A Single Appointment Response for created Appointment
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Appointment'
+                type: object
+                properties:
+                  AppointmentID:
+                    type: integer
+                  OrganizerID:
+                    type: string
+                  StartTimeUtc:
+                    type: string
+                    format: date-time
+                  EndTimeUtc:
+                    type: string
+                    format: date-time
+                  Duration:
+                    type: integer
+                  subject:
+                    type: string
+                  description:
+                    type: string
+                  AppointmentStatus:
+                    type: string
+                    enum:
+                      - active
+                      - rescheduled
+                      - deleted
+                      - noshow
+                      - completed
+                  Attendees:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        AttendeeID:
+                          type: string
+                        UserID:
+                          type: string
+                        ResponseStatus:
+                          type: string
+                          enum:
+                            - accepted
+                            - declined
+                            - noresponse
+                            - tentative
   /appointments/reschedule/{appointmentId}:
     put:
       tags:
@@ -997,14 +2018,94 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ChangeAppointment'
+              type: object
+              properties:
+                OrganizerID:
+                  type: string
+                StartTimeUtc:
+                  type: string
+                  format: date-time
+                EndTimeUtc:
+                  type: string
+                  format: date-time
+                Duration:
+                  type: integer
+                subject:
+                  type: string
+                description:
+                  type: string
+                AppointmentStatus:
+                  type: string
+                  enum:
+                    - active
+                    - rescheduled
+                    - deleted
+                    - noshow
+                    - completed
+                Attendees:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      AttendeeID:
+                        type: string
+                      UserID:
+                        type: string
+                      ResponseStatus:
+                        type: string
+                        enum:
+                          - accepted
+                          - declined
+                          - noresponse
+                          - tentative
       responses:
         '200':
           description: Returns a single altered appointment
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Appointment'
+                type: object
+                properties:
+                  AppointmentID:
+                    type: integer
+                  OrganizerID:
+                    type: string
+                  StartTimeUtc:
+                    type: string
+                    format: date-time
+                  EndTimeUtc:
+                    type: string
+                    format: date-time
+                  Duration:
+                    type: integer
+                  subject:
+                    type: string
+                  description:
+                    type: string
+                  AppointmentStatus:
+                    type: string
+                    enum:
+                      - active
+                      - rescheduled
+                      - deleted
+                      - noshow
+                      - completed
+                  Attendees:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        AttendeeID:
+                          type: string
+                        UserID:
+                          type: string
+                        ResponseStatus:
+                          type: string
+                          enum:
+                            - accepted
+                            - declined
+                            - noresponse
+                            - tentative
   /appointments/{appointmentId}/delete:
     delete:
       tags:
@@ -1064,7 +2165,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHours'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CalendarID:
+                          type: integer
+                        CalendarEventID:
+                          type: integer
+                        StartDateUtc:
+                          type: string
+                          format: date-time
+                        EndDateUtc:
+                          type: string
+                          format: date-time
+                        IsRecurring:
+                          type: boolean
+                          default: false
+                        RecurringCount:
+                          type: integer
+                  pagination:
+                    type: object
+                    properties:
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      totalCount:
+                        type: integer
   /workinghours/{calendarId}:
     get:
       tags:
@@ -1109,7 +2240,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHours'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CalendarID:
+                          type: integer
+                        CalendarEventID:
+                          type: integer
+                        StartDateUtc:
+                          type: string
+                          format: date-time
+                        EndDateUtc:
+                          type: string
+                          format: date-time
+                        IsRecurring:
+                          type: boolean
+                          default: false
+                        RecurringCount:
+                          type: integer
+                  pagination:
+                    type: object
+                    properties:
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      totalCount:
+                        type: integer
   /workinghours/create/{calendarId}:
     post:
       tags:
@@ -1127,14 +2288,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Working Hours paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /workinghours/create/{providerId}:
     post:
       tags:
@@ -1152,14 +2348,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Working Hours paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /workinghours/alter/{calendarId}:
     patch:
       tags:
@@ -1177,14 +2408,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Working Hours paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /workinghours/alter/{providerId}:
     patch:
       tags:
@@ -1202,14 +2468,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Working Hours paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /workinghours/delete/{calendarId}:
     delete:
       tags:
@@ -1284,7 +2585,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHours'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CalendarID:
+                          type: integer
+                        CalendarEventID:
+                          type: integer
+                        StartDateUtc:
+                          type: string
+                          format: date-time
+                        EndDateUtc:
+                          type: string
+                          format: date-time
+                        IsRecurring:
+                          type: boolean
+                          default: false
+                        RecurringCount:
+                          type: integer
+                  pagination:
+                    type: object
+                    properties:
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      totalCount:
+                        type: integer
   /reminders/{providerId}:
     get:
       tags:
@@ -1329,7 +2660,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHours'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        CalendarID:
+                          type: integer
+                        CalendarEventID:
+                          type: integer
+                        StartDateUtc:
+                          type: string
+                          format: date-time
+                        EndDateUtc:
+                          type: string
+                          format: date-time
+                        IsRecurring:
+                          type: boolean
+                          default: false
+                        RecurringCount:
+                          type: integer
+                  pagination:
+                    type: object
+                    properties:
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      totalCount:
+                        type: integer
   /reminders/create/{calendarId}:
     post:
       tags:
@@ -1347,14 +2708,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Reminders paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /reminders/create/{providerId}:
     post:
       tags:
@@ -1372,14 +2768,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Reminders paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /reminders/alter/{calendarId}:
     patch:
       tags:
@@ -1397,14 +2828,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Reminders paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /reminders/alter/{providerId}:
     patch:
       tags:
@@ -1422,14 +2888,49 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateWorkingHours'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                StartDateUtc:
+                  type: string
+                  format: date-time
+                EndDateUtc:
+                  type: string
+                  format: date-time
+                RecurringPattern:
+                  type: array
+                  items:
+                    type: integer
+                  default: 23456
+                IsRecurring:
+                  type: boolean
+                  default: false
+                RecurringCount:
+                  type: integer
       responses:
         '200':
           description: List of all Reminders paginated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkingHour'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  CalendarEventID:
+                    type: integer
+                  StartDateUtc:
+                    type: string
+                    format: date-time
+                  EndDateUtc:
+                    type: string
+                    format: date-time
+                  IsRecurring:
+                    type: boolean
+                    default: false
+                  RecurringCount:
+                    type: integer
   /reminders/delete/{calendarId}:
     delete:
       tags:
@@ -1478,7 +2979,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  UserID:
+                    type: integer
+                  UserDeviceTimeZone:
+                    type: string
+                    description: IANA TZ String picked by default from Device
+                  UserTimeZone:
+                    type: string
+                    description: IANA TZ String
     post:
       tags:
         - Calendar
@@ -1495,14 +3007,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateCalendar'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                UserID:
+                  type: integer
+                UserDeviceTimeZone:
+                  type: string
+                  description: IANA TZ String picked by default from Device
+                UserTimeZone:
+                  type: string
+                  description: IANA TZ String
       responses:
         '200':
           description: Creates a Calendar using provided Body Params in Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  UserID:
+                    type: integer
+                  UserDeviceTimeZone:
+                    type: string
+                    description: IANA TZ String picked by default from Device
+                  UserTimeZone:
+                    type: string
+                    description: IANA TZ String
     patch:
       tags:
         - Calendar
@@ -1519,14 +3053,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateCalendar'
+              type: object
+              properties:
+                CalendarID:
+                  type: integer
+                UserID:
+                  type: integer
+                UserDeviceTimeZone:
+                  type: string
+                  description: IANA TZ String picked by default from Device
+                UserTimeZone:
+                  type: string
+                  description: IANA TZ String
       responses:
         '200':
           description: Alters a Calendar using provided Body Params in Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'
+                type: object
+                properties:
+                  CalendarID:
+                    type: integer
+                  UserID:
+                    type: integer
+                  UserDeviceTimeZone:
+                    type: string
+                    description: IANA TZ String picked by default from Device
+                  UserTimeZone:
+                    type: string
+                    description: IANA TZ String
     delete:
       tags:
         - Calendar
@@ -1580,7 +3136,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Holidays'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        HolidayID:
+                          type: integer
+                        Name:
+                          type: string
+                        Year:
+                          type: integer
+                          exclusiveMinimum: 2023
+                          exclusiveMaximum: 3001
+                        Month:
+                          type: integer
+                          exclusiveMinimum: 0
+                          exclusiveMaximum: 13
+                        Date:
+                          type: integer
+                          exclusiveMinimum: 0
+                          exclusiveMaximum: 32
+                  pagination:
+                    type: object
+                    properties:
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      totalCount:
+                        type: integer
     post:
       tags:
         - Holidays
@@ -1591,14 +3178,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateHoliday'
+              type: object
+              properties:
+                Name:
+                  type: string
+                Year:
+                  type: integer
+                  exclusiveMinimum: 2023
+                  exclusiveMaximum: 3001
+                Month:
+                  type: integer
+                  exclusiveMinimum: 0
+                  exclusiveMaximum: 13
+                Date:
+                  type: integer
+                  exclusiveMinimum: 0
+                  exclusiveMaximum: 32
       responses:
         '200':
           description: Creates a Holiday using provided Body Params in Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Holiday'
+                type: object
+                properties:
+                  HolidayID:
+                    type: integer
+                  Name:
+                    type: string
+                  Year:
+                    type: integer
+                    exclusiveMinimum: 2023
+                    exclusiveMaximum: 3001
+                  Month:
+                    type: integer
+                    exclusiveMinimum: 0
+                    exclusiveMaximum: 13
+                  Date:
+                    type: integer
+                    exclusiveMinimum: 0
+                    exclusiveMaximum: 32
     patch:
       tags:
         - Holidays
@@ -1609,14 +3228,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUpdateHoliday'
+              type: object
+              properties:
+                Name:
+                  type: string
+                Year:
+                  type: integer
+                  exclusiveMinimum: 2023
+                  exclusiveMaximum: 3001
+                Month:
+                  type: integer
+                  exclusiveMinimum: 0
+                  exclusiveMaximum: 13
+                Date:
+                  type: integer
+                  exclusiveMinimum: 0
+                  exclusiveMaximum: 32
       responses:
         '200':
           description: Alters a Holiday using provided Body Params in Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Holiday'
+                type: object
+                properties:
+                  HolidayID:
+                    type: integer
+                  Name:
+                    type: string
+                  Year:
+                    type: integer
+                    exclusiveMinimum: 2023
+                    exclusiveMaximum: 3001
+                  Month:
+                    type: integer
+                    exclusiveMinimum: 0
+                    exclusiveMaximum: 13
+                  Date:
+                    type: integer
+                    exclusiveMinimum: 0
+                    exclusiveMaximum: 32
     delete:
       tags:
         - Holidays
@@ -1631,6 +3282,523 @@ paths:
       responses:
         '200':
           description: Deletes the Holiday
+  /ehr/resources/list:
+    get:
+      tags:
+        - FHIR Service
+      summary: Lists all Resources with record Counts
+      description: Lists all Resources with record Counts
+      responses:
+        '200':
+          description: Responses for all Resources with count
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ResourceName:
+                        type: string
+                      ResourceCount:
+                        type: integer
+  /ehr/resources/{resourceName}:
+    get:
+      tags:
+        - FHIR Service
+      summary: Lists all Resources with record Counts
+      description: Lists all Resources with record Counts
+      parameters:
+        - name: resourceName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Responses for all Resources with count
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      ResourceName:
+                        type: string
+                      ResourceCount:
+                        type: integer
+  /callSessions:
+    get:
+      tags:
+        - Conferencing
+      summary: List all call sessions
+      responses:
+        '200':
+          description: An array of call sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    CallSessionId:
+                      type: integer
+                    UserSharedKey:
+                      type: string
+                    SessionState:
+                      type: string
+                    AppointmentId:
+                      type: integer
+                    TwilioRoomSID:
+                      type: string
+                    StartTimeUtc:
+                      type: string
+                      format: date-time
+                    EndTimeUtc:
+                      type: string
+                      format: date-time
+                    Status:
+                      type: string
+    post:
+      tags:
+        - Conferencing
+      summary: Create a new call session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                UserSharedKey:
+                  type: string
+                  description: Auth0 provided shared Key
+                SessionState:
+                  type: string
+                  description: JWT Deciphered State
+                AppointmentId:
+                  type: integer
+                  description: From AppointmentTable REST Call
+                TwilioRoomSID:
+                  type: string
+                  description: Twilio Provided Room SID
+                StartTimeUtc:
+                  type: string
+                  format: date-time
+                  description: Start time of the call session in UTC
+                EndTimeUtc:
+                  type: string
+                  format: date-time
+                  description: End time of the call session in UTC
+                Status:
+                  type: string
+                  enum:
+                    - Active
+                    - Completed
+                    - Scheduled
+                  description: Status of the call session
+      responses:
+        '201':
+          description: Call session successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  CallSessionId:
+                    type: integer
+                  UserSharedKey:
+                    type: string
+                  SessionState:
+                    type: string
+                  AppointmentId:
+                    type: integer
+                  TwilioRoomSID:
+                    type: string
+                  StartTimeUtc:
+                    type: string
+                    format: date-time
+                  EndTimeUtc:
+                    type: string
+                    format: date-time
+                  Status:
+                    type: string
+  /callSessions/{callSessionId}:
+    patch:
+      tags:
+        - Conferencing
+      summary: Update a call session
+      parameters:
+        - name: callSessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the call session to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                UserSharedKey:
+                  type: string
+                  description: Auth0 provided shared Key
+                SessionState:
+                  type: string
+                  description: JWT Deciphered State
+                AppointmentId:
+                  type: integer
+                  description: From AppointmentTable REST Call
+                TwilioRoomSID:
+                  type: string
+                  description: Twilio Provided Room SID
+                StartTimeUtc:
+                  type: string
+                  format: date-time
+                  description: Start time of the call session in UTC
+                EndTimeUtc:
+                  type: string
+                  format: date-time
+                  description: End time of the call session in UTC
+                Status:
+                  type: string
+                  enum:
+                    - Active
+                    - Completed
+                    - Scheduled
+                  description: Status of the call session
+      responses:
+        '200':
+          description: Call session successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  CallSessionId:
+                    type: integer
+                  UserSharedKey:
+                    type: string
+                  SessionState:
+                    type: string
+                  AppointmentId:
+                    type: integer
+                  TwilioRoomSID:
+                    type: string
+                  StartTimeUtc:
+                    type: string
+                    format: date-time
+                  EndTimeUtc:
+                    type: string
+                    format: date-time
+                  Status:
+                    type: string
+  /callSessions/delete/{callSessionId}:
+    delete:
+      tags:
+        - Conferencing
+      summary: Delete a call session
+      parameters:
+        - name: callSessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the call session to delete
+      responses:
+        '204':
+          description: Call session successfully deleted
+  /callParticipants:
+    get:
+      tags:
+        - Conferencing
+      summary: List all call participants
+      responses:
+        '200':
+          description: An array of call participants
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ParticipantId:
+                      type: integer
+                    CallSessionId:
+                      type: integer
+                    UserId:
+                      type: string
+                    JoinTimeUTC:
+                      type: string
+                      format: date-time
+                    LeaveTimeUTC:
+                      type: string
+                      format: date-time
+                    ParticipantStatus:
+                      type: string
+    post:
+      tags:
+        - Conferencing
+      summary: Add a new participant to a call session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ParticipantId:
+                  type: integer
+                CallSessionId:
+                  type: integer
+                UserId:
+                  type: string
+                JoinTimeUTC:
+                  type: string
+                  format: date-time
+                LeaveTimeUTC:
+                  type: string
+                  format: date-time
+                ParticipantStatus:
+                  type: string
+      responses:
+        '201':
+          description: Participant successfully added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ParticipantId:
+                    type: integer
+                  CallSessionId:
+                    type: integer
+                  UserId:
+                    type: string
+                  JoinTimeUTC:
+                    type: string
+                    format: date-time
+                  LeaveTimeUTC:
+                    type: string
+                    format: date-time
+                  ParticipantStatus:
+                    type: string
+  /callParticipants/{participantId}:
+    patch:
+      tags:
+        - Conferencing
+      summary: Update a participant's details in a call session
+      parameters:
+        - name: participantId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the participant to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ParticipantId:
+                  type: integer
+                CallSessionId:
+                  type: integer
+                UserId:
+                  type: string
+                JoinTimeUTC:
+                  type: string
+                  format: date-time
+                LeaveTimeUTC:
+                  type: string
+                  format: date-time
+                ParticipantStatus:
+                  type: string
+      responses:
+        '200':
+          description: Participant details successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ParticipantId:
+                    type: integer
+                  CallSessionId:
+                    type: integer
+                  UserId:
+                    type: string
+                  JoinTimeUTC:
+                    type: string
+                    format: date-time
+                  LeaveTimeUTC:
+                    type: string
+                    format: date-time
+                  ParticipantStatus:
+                    type: string
+  /callParticipants/delete/{participantId}:
+    delete:
+      tags:
+        - Conferencing
+      summary: Delete a participant from a call session
+      parameters:
+        - name: participantId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the participant to delete
+      responses:
+        '204':
+          description: Participant successfully deleted
+  /callRecordings:
+    get:
+      tags:
+        - Conferencing
+      summary: List all call recordings
+      responses:
+        '200':
+          description: An array of call recordings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    RecordingId:
+                      type: integer
+                    CallSessionId:
+                      type: integer
+                    RecordingURL:
+                      type: string
+                    RecordingStartTimeUtc:
+                      type: string
+                      format: date-time
+                    RecordingEndTimeUtc:
+                      type: string
+                      format: date-time
+    post:
+      tags:
+        - Conferencing
+      summary: Create a new call recording entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RecordingId:
+                  type: integer
+                CallSessionId:
+                  type: integer
+                RecordingURL:
+                  type: string
+                RecordingStartTimeUtc:
+                  type: string
+                  format: date-time
+                RecordingEndTimeUtc:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Recording successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  RecordingId:
+                    type: integer
+                  CallSessionId:
+                    type: integer
+                  RecordingURL:
+                    type: string
+                  RecordingStartTimeUtc:
+                    type: string
+                    format: date-time
+                  RecordingEndTimeUtc:
+                    type: string
+                    format: date-time
+  /callRecordings/{recordingId}:
+    patch:
+      tags:
+        - Conferencing
+      summary: Update a call recording details
+      parameters:
+        - name: recordingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the recording to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                properties:
+                  RecordingId:
+                    type: integer
+                  CallSessionId:
+                    type: integer
+                  RecordingURL:
+                    type: string
+                  RecordingStartTimeUtc:
+                    type: string
+                    format: date-time
+                  RecordingEndTimeUtc:
+                    type: string
+                    format: date-time
+      responses:
+        '200':
+          description: Call recording successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  RecordingId:
+                    type: integer
+                  CallSessionId:
+                    type: integer
+                  RecordingURL:
+                    type: string
+                  RecordingStartTimeUtc:
+                    type: string
+                    format: date-time
+                  RecordingEndTimeUtc:
+                    type: string
+                    format: date-time
+  /callRecordings/delete/{recordingId}:
+    delete:
+      tags:
+        - Conferencing
+      summary: Delete a call recording
+      parameters:
+        - name: recordingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the recording to delete
+      responses:
+        '204':
+          description: Call recording successfully deleted
 components:
   schemas:
     User:
@@ -1846,9 +4014,57 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Appointment'
+            type: object
+            properties:
+              AppointmentID:
+                type: integer
+              OrganizerID:
+                type: string
+              StartTimeUtc:
+                type: string
+                format: date-time
+              EndTimeUtc:
+                type: string
+                format: date-time
+              Duration:
+                type: integer
+              subject:
+                type: string
+              description:
+                type: string
+              AppointmentStatus:
+                type: string
+                enum:
+                  - active
+                  - rescheduled
+                  - deleted
+                  - noshow
+                  - completed
+              Attendees:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    AttendeeID:
+                      type: string
+                    UserID:
+                      type: string
+                    ResponseStatus:
+                      type: string
+                      enum:
+                        - accepted
+                        - declined
+                        - noresponse
+                        - tentative
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          type: object
+          properties:
+            pageSize:
+              type: integer
+            pageNumber:
+              type: integer
+            totalCount:
+              type: integer
     Appointment:
       type: object
       properties:
@@ -1879,7 +4095,19 @@ components:
         Attendees:
           type: array
           items:
-            $ref: '#/components/schemas/Attendee'
+            type: object
+            properties:
+              AttendeeID:
+                type: string
+              UserID:
+                type: string
+              ResponseStatus:
+                type: string
+                enum:
+                  - accepted
+                  - declined
+                  - noresponse
+                  - tentative
     CreateAppointment:
       type: object
       properties:
@@ -1916,7 +4144,19 @@ components:
         Attendees:
           type: array
           items:
-            $ref: '#/components/schemas/Attendee'
+            type: object
+            properties:
+              AttendeeID:
+                type: string
+              UserID:
+                type: string
+              ResponseStatus:
+                type: string
+                enum:
+                  - accepted
+                  - declined
+                  - noresponse
+                  - tentative
     ChangeAppointment:
       type: object
       properties:
@@ -1945,7 +4185,19 @@ components:
         Attendees:
           type: array
           items:
-            $ref: '#/components/schemas/Attendee'
+            type: object
+            properties:
+              AttendeeID:
+                type: string
+              UserID:
+                type: string
+              ResponseStatus:
+                type: string
+                enum:
+                  - accepted
+                  - declined
+                  - noresponse
+                  - tentative
     Attendee:
       type: object
       properties:
@@ -1966,9 +4218,32 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Reminder'
+            type: object
+            properties:
+              CalendarID:
+                type: integer
+              CalendarEventID:
+                type: integer
+              StartDateUtc:
+                type: string
+                format: date-time
+              EndDateUtc:
+                type: string
+                format: date-time
+              IsRecurring:
+                type: boolean
+                default: false
+              RecurringCount:
+                type: integer
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          type: object
+          properties:
+            pageSize:
+              type: integer
+            pageNumber:
+              type: integer
+            totalCount:
+              type: integer
     Reminder:
       type: object
       properties:
@@ -1993,9 +4268,32 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/WorkingHour'
+            type: object
+            properties:
+              CalendarID:
+                type: integer
+              CalendarEventID:
+                type: integer
+              StartDateUtc:
+                type: string
+                format: date-time
+              EndDateUtc:
+                type: string
+                format: date-time
+              IsRecurring:
+                type: boolean
+                default: false
+              RecurringCount:
+                type: integer
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          type: object
+          properties:
+            pageSize:
+              type: integer
+            pageNumber:
+              type: integer
+            totalCount:
+              type: integer
     WorkingHour:
       type: object
       properties:
@@ -2121,9 +4419,30 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Availability'
+            type: object
+            properties:
+              AvailabilitySlotID:
+                type: integer
+              UserID:
+                type: string
+                description: Auth0 provided User UUID
+              DateStartUtc:
+                type: string
+                format: date-time
+                default: current utc dateTime
+              DateEndUtc:
+                type: string
+                format: date-time
+                default: current utc dateTime
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          type: object
+          properties:
+            pageSize:
+              type: integer
+            pageNumber:
+              type: integer
+            totalCount:
+              type: integer
     Availability:
       type: object
       properties:
@@ -2146,9 +4465,33 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Holiday'
+            type: object
+            properties:
+              HolidayID:
+                type: integer
+              Name:
+                type: string
+              Year:
+                type: integer
+                exclusiveMinimum: 2023
+                exclusiveMaximum: 3001
+              Month:
+                type: integer
+                exclusiveMinimum: 0
+                exclusiveMaximum: 13
+              Date:
+                type: integer
+                exclusiveMinimum: 0
+                exclusiveMaximum: 32
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          type: object
+          properties:
+            pageSize:
+              type: integer
+            pageNumber:
+              type: integer
+            totalCount:
+              type: integer
     Holiday:
       type: object
       properties:
@@ -2193,4 +4536,198 @@ components:
         pageNumber:
           type: integer
         totalCount:
+          type: integer
+    CallSession:
+      type: object
+      properties:
+        CallSessionId:
+          type: integer
+        UserSharedKey:
+          type: string
+        SessionState:
+          type: string
+        AppointmentId:
+          type: integer
+        TwilioRoomSID:
+          type: string
+        StartTimeUtc:
+          type: string
+          format: date-time
+        EndTimeUtc:
+          type: string
+          format: date-time
+        Status:
+          type: string
+    CallParticipant:
+      type: object
+      properties:
+        ParticipantId:
+          type: integer
+        CallSessionId:
+          type: integer
+        UserId:
+          type: string
+        JoinTimeUTC:
+          type: string
+          format: date-time
+        LeaveTimeUTC:
+          type: string
+          format: date-time
+        ParticipantStatus:
+          type: string
+    CallRecording:
+      type: object
+      properties:
+        RecordingId:
+          type: integer
+        CallSessionId:
+          type: integer
+        RecordingURL:
+          type: string
+        RecordingStartTimeUtc:
+          type: string
+          format: date-time
+        RecordingEndTimeUtc:
+          type: string
+          format: date-time
+    CallSessionCreateRequest:
+      type: object
+      properties:
+        UserSharedKey:
+          type: string
+          description: Auth0 provided shared Key
+        SessionState:
+          type: string
+          description: JWT Deciphered State
+        AppointmentId:
+          type: integer
+          description: From AppointmentTable REST Call
+        TwilioRoomSID:
+          type: string
+          description: Twilio Provided Room SID
+        StartTimeUtc:
+          type: string
+          format: date-time
+          description: Start time of the call session in UTC
+        EndTimeUtc:
+          type: string
+          format: date-time
+          description: End time of the call session in UTC
+        Status:
+          type: string
+          enum:
+            - Active
+            - Completed
+            - Scheduled
+          description: Status of the call session
+    CallParticipantCreateRequest:
+      type: object
+      properties:
+        ParticipantId:
+          type: integer
+        CallSessionId:
+          type: integer
+        UserId:
+          type: string
+        JoinTimeUTC:
+          type: string
+          format: date-time
+        LeaveTimeUTC:
+          type: string
+          format: date-time
+        ParticipantStatus:
+          type: string
+    CallRecordingCreateRequest:
+      type: object
+      properties:
+        RecordingId:
+          type: integer
+        CallSessionId:
+          type: integer
+        RecordingURL:
+          type: string
+        RecordingStartTimeUtc:
+          type: string
+          format: date-time
+        RecordingEndTimeUtc:
+          type: string
+          format: date-time
+    CallSessionUpdateRequest:
+      type: object
+      properties:
+        UserSharedKey:
+          type: string
+          description: Auth0 provided shared Key
+        SessionState:
+          type: string
+          description: JWT Deciphered State
+        AppointmentId:
+          type: integer
+          description: From AppointmentTable REST Call
+        TwilioRoomSID:
+          type: string
+          description: Twilio Provided Room SID
+        StartTimeUtc:
+          type: string
+          format: date-time
+          description: Start time of the call session in UTC
+        EndTimeUtc:
+          type: string
+          format: date-time
+          description: End time of the call session in UTC
+        Status:
+          type: string
+          enum:
+            - Active
+            - Completed
+            - Scheduled
+          description: Status of the call session
+    CallParticipantUpdateRequest:
+      type: object
+      properties:
+        ParticipantId:
+          type: integer
+        CallSessionId:
+          type: integer
+        UserId:
+          type: string
+        JoinTimeUTC:
+          type: string
+          format: date-time
+        LeaveTimeUTC:
+          type: string
+          format: date-time
+        ParticipantStatus:
+          type: string
+    CallRecordingUpdateRequest:
+      type: object
+      properties:
+        properties:
+          RecordingId:
+            type: integer
+          CallSessionId:
+            type: integer
+          RecordingURL:
+            type: string
+          RecordingStartTimeUtc:
+            type: string
+            format: date-time
+          RecordingEndTimeUtc:
+            type: string
+            format: date-time
+    Resources:
+      type: array
+      items:
+        type: object
+        properties:
+          ResourceName:
+            type: string
+          ResourceCount:
+            type: integer
+    Resource:
+      type: object
+      properties:
+        ResourceName:
+          type: string
+        ResourceCount:
           type: integer
