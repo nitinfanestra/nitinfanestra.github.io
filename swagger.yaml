@@ -3811,6 +3811,9 @@ components:
           enum:
             - client
             - provider
+        stateCode:
+          type: string
+          description : "Two letter ISO codes for states example CA,TX etc"
         createdAt:
           type: string
           format: date-time
@@ -3839,6 +3842,9 @@ components:
             - active
             - inactive
             - pending
+        stateCode:
+          type: string
+          description : "Two letter ISO codes for states example CA,TX etc"
         emailVerificationStatusCode:
           type: string
           enum:
@@ -3866,6 +3872,9 @@ components:
             - active
             - inactive
             - pending
+        stateCode:
+          type: string
+          description : "Two letter ISO codes for states example CA,TX etc"
         profileImageUrl:
           type: string
         emailVerificationStatus:
