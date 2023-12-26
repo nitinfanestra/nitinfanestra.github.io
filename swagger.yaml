@@ -36,6 +36,12 @@ paths:
             enum:
               - verified
               - pendingVerification
+        - name: stateTwoLetterCode
+          in: query
+          required: false
+          schema:
+           type: string
+           description: "If the stateCode is passed like CA,TX,AL then users are filtered based on the state Code else all users nationwide are returened"
         - name: dateRangeStartUtc
           in: query
           required: false
@@ -85,6 +91,9 @@ paths:
                       enum:
                         - client
                         - provider
+                    stateCode:
+                      type: string
+                      description: "Two letter stateCode like AL,TX,CA"
                     createdAt:
                       type: string
                       format: date-time
@@ -118,6 +127,9 @@ paths:
               properties:
                 userId:
                   type: string
+                stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                 userSharedkey:
                   type: string
                 sessionState:
@@ -155,6 +167,9 @@ paths:
                     enum:
                       - client
                       - provider
+                  stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                   createdAt:
                     type: string
                     format: date-time
@@ -201,6 +216,9 @@ paths:
                     enum:
                       - client
                       - provider
+                  stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                   createdAt:
                     type: string
                     format: date-time
@@ -245,6 +263,9 @@ paths:
                     - active
                     - inactive
                     - pending
+                stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                 emailVerificationStatusCode:
                   type: string
                   enum:
@@ -267,6 +288,9 @@ paths:
                     enum:
                       - client
                       - provider
+                  stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                   createdAt:
                     type: string
                     format: date-time
@@ -310,6 +334,9 @@ paths:
                     - active
                     - inactive
                     - pending
+                stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                 emailVerificationStatusCode:
                   type: string
                   enum:
@@ -332,6 +359,9 @@ paths:
                     enum:
                       - client
                       - provider
+                  stateCode:
+                    type: string
+                    description: "Two letter stateCode like AL,TX,CA"
                   createdAt:
                     type: string
                     format: date-time
@@ -371,6 +401,16 @@ paths:
         - Notifications
       summary: Retrieve all notifications
       operationId: getAllNotifications
+      parameters:
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread
       responses:
         '200':
           description: A list of all notifications
@@ -388,6 +428,13 @@ paths:
                     timestamp:
                       type: string
                       format: date-time
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     recipientUser:
                       type: string
                     payload:
@@ -424,6 +471,15 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread
       responses:
         '200':
           description: A list of notifications within the specified date range
@@ -443,6 +499,13 @@ paths:
                       format: date-time
                     recipientUser:
                       type: string
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     payload:
                       type: object
                       properties:
@@ -480,6 +543,15 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread
       responses:
         '200':
           description: A list of notifications for the specified user
@@ -499,6 +571,13 @@ paths:
                       format: date-time
                     recipientUser:
                       type: string
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     payload:
                       type: object
                       properties:
@@ -536,6 +615,15 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread
       responses:
         '200':
           description: A list of notifications for the specified channel
@@ -555,6 +643,13 @@ paths:
                       format: date-time
                     recipientUser:
                       type: string
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     payload:
                       type: object
                       properties:
@@ -599,6 +694,13 @@ paths:
                     format: date-time
                   recipientUser:
                     type: string
+                  notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                   payload:
                     type: object
                     properties:
@@ -641,6 +743,13 @@ paths:
                   format: date-time
                 recipientUser:
                   type: string
+                notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                 payload:
                   type: object
                   properties:
@@ -709,6 +818,15 @@ paths:
           required: true
           schema:
             type: number
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread            
       responses:
         '200':
           description: All notifications for this appointment
@@ -728,6 +846,13 @@ paths:
                       format: date-time
                     recipientUser:
                       type: string
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     payload:
                       type: object
                       properties:
@@ -755,6 +880,15 @@ paths:
           required: true
           schema:
             type: number
+        - name: notificationStatus
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+            default: unread
       responses:
         '200':
           description: All notifications for this calendarEvent
@@ -774,6 +908,13 @@ paths:
                       format: date-time
                     recipientUser:
                       type: string
+                    notificationStatus:
+                      type: string
+                      enum: 
+                        - read
+                        - unread
+                      default:
+                        unread
                     payload:
                       type: object
                       properties:
@@ -1089,6 +1230,12 @@ paths:
             type: string
             format: date-time
             default: '2023-12-21'
+        - name: isBlocked
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false        
       responses:
         '200':
           description: Responses for availability GET Query
@@ -1104,8 +1251,12 @@ paths:
                       items:
                         type: object
                         properties:
-                          AvailabilitySlotID:
-                            type: integer
+                          isBlocked:
+                            type: boolean
+                            default: false
+                          BlockExpiryUtc:
+                            type: string
+                            format: date-time
                           UserID:
                             type: string
                             description: Auth0 provided User UUID
@@ -1169,6 +1320,12 @@ paths:
             type: string
             format: date-time
             default: '2023-12-21'
+        - name: isBlocked
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Responses for availability GET Query
@@ -1184,8 +1341,12 @@ paths:
                       items:
                         type: object
                         properties:
-                          AvailabilitySlotID:
-                            type: integer
+                          isBlocked:
+                            type: boolean
+                            default: false
+                          BlockExpiryUtc:
+                            type: string
+                            format: date-time
                           UserID:
                             type: string
                             description: Auth0 provided User UUID
@@ -1253,6 +1414,12 @@ paths:
             type: string
             format: date-time
             default: '2023-12-21'
+        - name: isBlocked
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Responses for availability GET Query
@@ -1268,8 +1435,12 @@ paths:
                       items:
                         type: object
                         properties:
-                          AvailabilitySlotID:
-                            type: integer
+                          isBlocked:
+                            type: boolean
+                            default: false
+                          BlockExpiryUtc:
+                            type: string
+                            format: date-time
                           UserID:
                             type: string
                             description: Auth0 provided User UUID
@@ -1337,6 +1508,12 @@ paths:
             type: string
             format: date-time
             default: '2023-12-21'
+        - name: isBlocked
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Responses for availability GET Query
@@ -1352,8 +1529,12 @@ paths:
                       items:
                         type: object
                         properties:
-                          AvailabilitySlotID:
-                            type: integer
+                          isBlocked:
+                            type: boolean
+                            default: false
+                          BlockExpiryUtc:
+                            type: string
+                            format: date-time
                           UserID:
                             type: string
                             description: Auth0 provided User UUID
@@ -1373,45 +1554,7 @@ paths:
                         pageNumber:
                           type: integer
                         totalCount:
-                          type: integer
-  /availability/{availabilitySlotId}:
-    get:
-      tags:
-        - Availability
-      summary: Gets Availability from Providers
-      description: >-
-        This endpoints provides filters to tune availability extracted from a
-        provider using provider's userId. Data Source is a stored procedure that
-        calculates Availability from calendars, Events, Appointments, holidays
-        entities
-      parameters:
-        - name: availabilitySlotId
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Gets a single Availability Slot
-      responses:
-        '200':
-          description: Responses for availability GET Query
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  AvailabilitySlotID:
-                    type: integer
-                  UserID:
-                    type: string
-                    description: Auth0 provided User UUID
-                  DateStartUtc:
-                    type: string
-                    format: date-time
-                    default: current utc dateTime
-                  DateEndUtc:
-                    type: string
-                    format: date-time
-                    default: current utc dateTime
+                          type: integer  
   /appointments/{calendarId}:
     get:
       tags:
@@ -4002,6 +4145,11 @@ components:
           format: date-time
         recipientUser:
           type: string
+        notificationStatus:
+          type: string
+          enum: 
+            - read
+            - unread
         payload:
           type: object
           properties:
@@ -4454,12 +4602,16 @@ components:
               type: integer
     Availability:
       type: object
-      properties:
-        AvailabilitySlotID:
-          type: integer
+      properties:        
         UserID:
           type: string
           description: Auth0 provided User UUID
+        isBlocked:
+          type: boolean
+          default: false
+        BlockExpiryUtc:
+          type: string
+          format: date-time
         DateStartUtc:
           type: string
           format: date-time
