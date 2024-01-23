@@ -3298,10 +3298,13 @@ paths:
                           type: integer
                           exclusiveMinimum: 0
                           exclusiveMaximum: 13
-                        Date:
+                        day:
                           type: integer
                           exclusiveMinimum: 0
                           exclusiveMaximum: 32
+                        Date:
+                          type: string
+                          format: date-time                          
                   pagination:
                     type: object
                     properties:
@@ -3333,7 +3336,7 @@ paths:
                   type: integer
                   exclusiveMinimum: 0
                   exclusiveMaximum: 13
-                Date:
+                day:
                   type: integer
                   exclusiveMinimum: 0
                   exclusiveMaximum: 32
@@ -3357,10 +3360,14 @@ paths:
                     type: integer
                     exclusiveMinimum: 0
                     exclusiveMaximum: 13
-                  Date:
+                  day:
                     type: integer
                     exclusiveMinimum: 0
                     exclusiveMaximum: 32
+                  Date:
+                    type: string
+                    format: date-time
+
     patch:
       tags:
         - Holidays
@@ -3383,7 +3390,7 @@ paths:
                   type: integer
                   exclusiveMinimum: 0
                   exclusiveMaximum: 13
-                Date:
+                day:
                   type: integer
                   exclusiveMinimum: 0
                   exclusiveMaximum: 32
@@ -3407,10 +3414,13 @@ paths:
                     type: integer
                     exclusiveMinimum: 0
                     exclusiveMaximum: 13
-                  Date:
+                  day:
                     type: integer
                     exclusiveMinimum: 0
                     exclusiveMaximum: 32
+                  Date:
+                    type: string
+                    format: date-time
     delete:
       tags:
         - Holidays
